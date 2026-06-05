@@ -4,6 +4,9 @@ import online.store.repositories.ProductCategoryRepository;
 import online.store.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 
 @Service
 public class ProductsService {
@@ -13,5 +16,13 @@ public class ProductsService {
     public ProductsService(ProductRepository productRepository, ProductCategoryRepository productCategoryRepository) {
         this.productRepository = productRepository;
         this.productCategoryRepository = productCategoryRepository;
+    }
+
+    public List<String> getAllSupportedCategories() {
+        return productCategoryRepository.findAll()
+                .stream()
+                .map(
+                productCategory -> productCategory.getCategory())
+                .collect(Collectors.toList());
     }
 }
