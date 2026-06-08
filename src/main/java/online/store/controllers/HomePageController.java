@@ -34,4 +34,5 @@ public class HomePageController {
     public ProductWrapper getProductsByCategory(@RequestParam(name = "category")String category){
         return new ProductWrapper(productsService.getProductByCategory(category));
     }
+
 }
