@@ -1,6 +1,9 @@
 package online.store.repositories;
 
+import online.store.model.Product;
 import online.store.model.ProductCategory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +17,7 @@ public interface ProductCategoryRepository extends JpaRepository<ProductCategory
      * Returns all the available categories of products in our online store
      */
     List<ProductCategory> findAll();
+
+
+
 }
