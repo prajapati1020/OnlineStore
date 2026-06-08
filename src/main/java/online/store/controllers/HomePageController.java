@@ -35,4 +35,9 @@ public class HomePageController {
         return new ProductWrapper(productsService.getProductByCategory(category));
     }
 
+    @GetMapping("/getAllProducts")
+    public ProductWrapper getAllProducts(){
+        return new ProductWrapper(productsService.getAllProducts());
+    }
+
 }
