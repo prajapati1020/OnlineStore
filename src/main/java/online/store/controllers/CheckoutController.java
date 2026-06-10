@@ -4,10 +4,12 @@ import online.store.exceptions.CreditCardValidationException;
 import online.store.model.CheckoutRequest;
 import online.store.model.Order;
 import online.store.repositories.ProductRepository;
+import online.store.services.CreditCardValidationService;
 import online.store.services.OrderService;
 import online.store.services.ProductsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,12 +20,14 @@ import java.util.Set;
 public class CheckoutController {
     private final OrderService orderService;
     private final ProductsService productsService;
-    private final CreditCardValidationException creditCardValidationException;
+    private final CreditCardValidationService creditCardValidationService;
 
-    public CheckoutController(OrderService orderService, ProductsService productsService, CreditCardValidationException creditCardValidationException) {
+
+    public CheckoutController(OrderService orderService, ProductsService productsService,  CreditCardValidationService creditCardValidationService) {
         this.orderService = orderService;
         this.productsService = productsService;
-        this.creditCardValidationException = creditCardValidationException;
+
+        this.creditCardValidationService = creditCardValidationService;
     }
 
     @PostMapping("/checkout")
@@ -42,6 +46,9 @@ public class CheckoutController {
             return new ResponseEntity<>("Last name is missing", HttpStatus.BAD_REQUEST);
         }
 
+        creditCardValidationService.validate(checkoutRequest.getCreditCard());
+
+
         for(CheckoutRequest.ProductInfo productInfo : checkoutRequest.getProducts()){
              Order order = new Order(checkoutRequest.getFirstName(),
                      checkoutRequest.getLastName(),checkoutRequest.getEmail(),
@@ -59,5 +66,7 @@ public class CheckoutController {
     private static boolean isNullOrBlank(String input){
         return input==null || input.isEmpty()||input.trim().length()==0;
     }
+
+
 
 }
