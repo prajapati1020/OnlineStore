@@ -1,5 +1,6 @@
 package online.store.controllers;
 
+import online.store.exceptions.CreditCardValidationException;
 import online.store.model.CheckoutRequest;
 import online.store.model.Order;
 import online.store.repositories.ProductRepository;
@@ -17,10 +18,12 @@ import java.util.Set;
 public class CheckoutController {
     private final OrderService orderService;
     private final ProductsService productsService;
+    private final CreditCardValidationException creditCardValidationException;
 
-    public CheckoutController(OrderService orderService, ProductsService productsService) {
+    public CheckoutController(OrderService orderService, ProductsService productsService, CreditCardValidationException creditCardValidationException) {
         this.orderService = orderService;
         this.productsService = productsService;
+        this.creditCardValidationException = creditCardValidationException;
     }
 
     @PostMapping("/checkout")
